@@ -1,6 +1,7 @@
 #!/bin/ksh
 
 DIR=/amd/luaao/users/TEMP
+SDE_HOME=/data/vend/sde
 OLD_PATH=/chv/local/generic/chap/gocad++/
 NEW_PATH=/data/vend/gocad_gta_group/
 
