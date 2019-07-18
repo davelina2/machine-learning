@@ -1,0 +1,26 @@
+#!/bin/ksh
+
+DIR=/amd/luaao/users/generic/adnl/TEMP
+OLD_PATH=/chv/local/generic/chap/gocad++/
+NEW_PATH=/data/gocad_gta_group/
+
+ls -lR ${DIR}/* |
+nawk '
+{
+ if (substr($0,length($0),1)==":") D=substr($0,1,length($0)-1)           #Se a sub linha tiver : na posicao um entao o folder sera o $0
+                                                                         #deste a posicao 1 ate o comprimento da linha menos 1;
+
+ if (NF==11 && D=="") printf "%s %s\n",$9,$12                            #Se o numero de campos igual a 11 e for um directorio entao
+                                                                         #imprimimos as posicoes 9 e 11;
+
+ if (NF==11 && D!="") printf "%s/%s %s\n",D,$9,$12                       # Se o numero de campos 11 e nao for directorio enta imprimimos
+                                                                         # o directorio as posicoes 9 e 11;
+}
+' |
+grep "$OLD_PATH" |
+while read L P; do
+ echo $P | sed 's,'"$OLD_PATH"','"$NEW_PATH"',' | read NP
+ echo "Updating $L -> $NP"
+ rm $L
+ ln -s $NP $L
+done
